@@ -5,6 +5,13 @@
 
 function reverseString(str) {
   // Tu solución acá  
+  let reverse = ""
+
+  for(let i = str.length - 1; i >= 0; i--) {
+    reverse += str[i]
+  }
+
+  return reverse
 }
 
 /*
@@ -14,6 +21,7 @@ function reverseString(str) {
 */
 function isPalindrome(str) {
   // Tu solución acá
+  return str === reverseString(str)
 }
 
 /*
@@ -31,8 +39,26 @@ function isPalindrome(str) {
 
 function closestPair(arr) {
   // Tu solución acá
-}
+  if(arr.length < 2) {
+    return []
+  }
 
+  let pair = [arr[0], arr[1]]
+
+  for (let i = 0; i < arr.length; i++) {
+
+    if(i + 1 < arr.length && Math.abs(arr[i] - arr[i + 1]) < Math.abs(pair[0] - pair[1])) {
+      pair[0] = arr[i]
+      pair[1] = arr[i + 1]
+    }
+    
+    if(arr[0] > arr[1]) {
+      arr.reverse()
+    }
+  }
+
+  return pair
+}
 
 /*
   Ejercicio 4: Calculadora - Programación Orientada a Objetos
@@ -68,6 +94,53 @@ function closestPair(arr) {
 
 class Calculator {
   // Tu solución acá
+  lastResult = ""
+
+  add = (a, b) => {
+    this.setLastResult(a + b)
+    return a + b
+  } 
+
+  subtract = (a, b) => {
+    this.setLastResult(a - b)
+    return a - b
+  }
+
+  multiply = (a, b) => {
+    this.setLastResult(a * b)
+    return a * b
+  }
+
+  divide = (a, b) => {
+    if(b === 0) {
+      throw new Error("Division by zero is not allowed")
+    }
+
+    this.setLastResult(a/b)
+    return a/b
+  }
+
+  exponentiate = (a, b) => {
+    if(b === 0) {
+      this.setLastResult(1)
+      return 1
+    }
+
+    if(b < 0) {
+      throw new Error("Exponentiation with negative exponent is not allowed")
+    }
+
+    this.setLastResult(a ** b)
+    return a ** b
+  }
+
+  setLastResult = (result) => {
+    this.lastResult = result
+  }
+
+  getLastResult = () => {
+    return this.lastResult
+  }
 }
 
 module.exports = {
