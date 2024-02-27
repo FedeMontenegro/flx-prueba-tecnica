@@ -1,0 +1,21 @@
+.container {
+    width: 100%;
+}
+
+.body {
+    padding: 23px 98px;
+    height: 83vh;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    width: 53%;
+}
+
+.filtersBtnContainer {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 21px;
+}

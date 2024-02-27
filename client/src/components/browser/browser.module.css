@@ -1,0 +1,21 @@
+.container {
+    border: solid 1px var(--color-gray);
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.browser {
+    height: 40px;
+    border-right: solid 1px var(--color-gray);
+    padding-left: 15px;
+    width: 290px;
+    
+}
+
+.browser::placeholder {
+    color: var(--color-gray)
+}
+
+.icon {
+
+}

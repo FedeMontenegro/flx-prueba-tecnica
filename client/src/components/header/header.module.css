@@ -1,0 +1,12 @@
+.container {
+    background-color: var(--color-gray);
+    display: flex;
+    align-items: center;
+    padding-left: 63px;
+    height: 91px;
+}
+
+.logo {
+    height: 36px;
+    width: 153px;
+}

@@ -1,0 +1,14 @@
+.container {
+    background-color: white;
+    border: solid 1px var(--color-gray);
+    border-radius: 8px;
+    color: var(--color-gray);
+    height: 40px;
+    padding: 9px;
+    width: 210px;
+}
+
+.option {
+    font-size: var(--font-size-sm);
+    color: black;
+}
