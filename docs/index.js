@@ -56,7 +56,6 @@ function closestPair(arr) {
       arr.reverse()
     }
   }
-
   return pair
 }
 
