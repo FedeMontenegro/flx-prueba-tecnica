@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import ModalComponent from '../modal/ModalComponent';
 import FormComponent from '../form/FormComponent';
 import useTable from '../../hooks/useTable';
+import PaginationComponent from '../pagination/PaginationComponent';
 
 const TableComponent = () => {
 
@@ -32,6 +33,7 @@ const TableComponent = () => {
         <div className={Styles.container}>
             <Table
                 dataSource={users.all}
+                pagination={false}
                 onRow={(record) => ({
                     onClick: () => {
                         handleEditClick(record)
@@ -76,6 +78,11 @@ const TableComponent = () => {
                     )}
                 />
             </Table>
+
+            <PaginationComponent
+                pagination={users.pagination}
+                total={users.total}
+            />
 
             {
                 typeForm === "update"

@@ -10,8 +10,8 @@ export const instance = axios.create({
 
 export const get = async url => {
 	try {
-		const { data, status } = await instance.get(url)
-		return { ok: true, data, status }
+		const { data, status, headers } = await instance.get(url)
+		return { ok: true, data, status, headers }
 	} catch (err) {
 		return { ok: false, error: err, status: 500 }
 	}

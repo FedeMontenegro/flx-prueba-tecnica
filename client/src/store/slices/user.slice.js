@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit"
 
 let initialState = {
     all: [],
-    selectedUser: {}
+    selectedUser: {},
+    pagination: { current: 1, size: 10 },
+    total: 0,
 }
 
 const users = createSlice({

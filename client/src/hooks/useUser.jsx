@@ -25,7 +25,7 @@ const useUser = () => {
                     toggle(false)
                     dispatch(setUsers({ 
                         ...users,
-                        all: response.data
+                        all: response.data,
                     }))
                 }, 1000)
             }
@@ -80,6 +80,38 @@ const useUser = () => {
             return
         } catch (error) {
             throw new Error("Error de solicitud (searchUsers): ", error);    
+            
+        }
+    }
+
+    const getUsersPagination = async (current, size) => {
+
+        toggle(true)
+
+        try {
+            const response = await get(`/users?_start=${(current - 1) * size}&_limit=${size}`)
+            const totalCount = await response.headers.get('X-Total-Count')
+
+            if(response.ok) {
+                setTimeout(() => {
+                    toggle(false)
+                    dispatch(setUsers({ 
+                        ...users,
+                        all: response.data,
+                        pagination: { 
+                            ...users.pagination, 
+                            current: current, 
+                            pageSize: size 
+                        },
+                        total: parseInt(totalCount, 10)
+                    }))
+                }, 1000)
+            }
+
+            return
+        } catch (error) {
+            console.log("Error de solicitud (getUsersPagination): ", error)
+            throw new Error("Error de solicitud (getUsersPagination): ", error);    
             
         }
     }
@@ -171,7 +203,7 @@ const useUser = () => {
     }
 
     useEffect(() => {
-        fetchUsers()
+        getUsersPagination(users.pagination.current, users.pagination.size)
     }, [])
 
     return {
@@ -183,6 +215,7 @@ const useUser = () => {
         deleteUser,
         getUsersByStatus,
         searchUsers,
+        getUsersPagination,
     }
 }
 

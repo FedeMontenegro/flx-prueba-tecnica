@@ -1,4 +1,6 @@
 .container {
+    align-items: center;
+    display: flex;
     border: solid 1px var(--color-gray);
     border-radius: 8px;
     width: fit-content;
