@@ -4,8 +4,8 @@ const usePagination = () => {
 
     const { getUsersPagination } = useUser()
 
-    const handlePageChange = (current, size) => {
-        getUsersPagination(current, size)
+    const handlePageChange = (current, pageSize) => {
+        getUsersPagination(current, pageSize)
     }
 
     return {

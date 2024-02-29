@@ -8,7 +8,7 @@ import {
     ModalComponent,
     FormComponent,
 } from "../../components"
-import { Button, Spin, Alert } from 'antd';
+import { Button, Spin, Space } from 'antd';
 import useModal from "../../hooks/useModal"
 import useForm from "../../hooks/useForm"
 import useUser from "../../hooks/useUser";
@@ -73,14 +73,6 @@ const Home = () => {
                         name="createUser"
                     />
                 </Spin>
-                {success
-                    &&
-                    (<Alert
-                        message="¡Éxito!"
-                        description="Registro exitoso"
-                        type="success"
-                    />)
-                }
             </ModalComponent>
         </div>
     )

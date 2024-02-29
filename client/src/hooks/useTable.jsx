@@ -5,16 +5,14 @@ const useTable = () => {
 
     const dispatch = useDispatch()
 
-    const handleEditClick = (record, form, showModal, users) => {
-        dispatch(setUsers({ ...users, selectedUser: record }))
+    const handleEditClick = (record, form) => {
+        dispatch(setUsers( { selectedUser : record }))
         form?.setFieldsValue(record);
-        showModal()
     };
 
-    const handleDeleteClick = (record, form, showModal, users) => {
-        dispatch(setUsers({ ...users, selectedUser: record }))
+    const handleDeleteClick = (record, form) => {
+        dispatch(setUsers( { selectedUser : record }))
         form?.setFieldsValue(record);
-        showModal()
     }
 
     return {

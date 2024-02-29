@@ -5,6 +5,7 @@ import { setUsers } from '../store/slices/user.slice';
 import { post } from "../services/api.services";
 import { v4 as uuidv4 } from 'uuid';
 import useSpinner from "./useSpinner"
+import { openNotificationWithIcon } from '../services/notification.service';
 
 const useUser = () => {
 
@@ -16,14 +17,14 @@ const useUser = () => {
     const fetchUsers = async () => {
 
         toggle(true)
-        
+
         try {
             const response = await get("/users")
 
-            if(response.ok) {
+            if (response.ok) {
                 setTimeout(() => {
                     toggle(false)
-                    dispatch(setUsers({ 
+                    dispatch(setUsers({
                         ...users,
                         all: response.data,
                     }))
@@ -38,16 +39,16 @@ const useUser = () => {
     }
 
     const getUsersByStatus = async (status) => {
-        
+
         toggle(true)
 
         try {
             const response = await get("/users?status=" + status)
 
-            if(response.ok) {
+            if (response.ok) {
                 setTimeout(() => {
                     toggle(false)
-                    dispatch(setUsers({ 
+                    dispatch(setUsers({
                         ...users,
                         all: response.data
                     }))
@@ -56,21 +57,21 @@ const useUser = () => {
 
             return
         } catch (error) {
-            throw new Error("Error de solicitud (getUsersByStatus): ", error);    
+            throw new Error("Error de solicitud (getUsersByStatus): ", error);
         }
     }
 
     const searchUsers = async (searchTerm) => {
-                
+
         toggle(true)
 
         try {
             const response = await get(`/users?q=${searchTerm}`)
 
-            if(response.ok) {
+            if (response.ok) {
                 setTimeout(() => {
                     toggle(false)
-                    dispatch(setUsers({ 
+                    dispatch(setUsers({
                         ...users,
                         all: response.data
                     }))
@@ -79,29 +80,29 @@ const useUser = () => {
 
             return
         } catch (error) {
-            throw new Error("Error de solicitud (searchUsers): ", error);    
-            
+            throw new Error("Error de solicitud (searchUsers): ", error);
+
         }
     }
 
-    const getUsersPagination = async (current, size) => {
+    const getUsersPagination = async (current, pageSize) => {
 
         toggle(true)
 
         try {
-            const response = await get(`/users?_start=${(current - 1) * size}&_limit=${size}`)
+            const response = await get(`/users?_start=${(current - 1) * pageSize}&_limit=${pageSize}`)
             const totalCount = await response.headers.get('X-Total-Count')
 
-            if(response.ok) {
+            if (response.ok) {
                 setTimeout(() => {
                     toggle(false)
-                    dispatch(setUsers({ 
+                    dispatch(setUsers({
                         ...users,
                         all: response.data,
-                        pagination: { 
-                            ...users.pagination, 
-                            current: current, 
-                            pageSize: size 
+                        pagination: {
+                            ...users.pagination,
+                            current: current,
+                            pageSize: pageSize
                         },
                         total: parseInt(totalCount, 10)
                     }))
@@ -111,8 +112,8 @@ const useUser = () => {
             return
         } catch (error) {
             console.log("Error de solicitud (getUsersPagination): ", error)
-            throw new Error("Error de solicitud (getUsersPagination): ", error);    
-            
+            throw new Error("Error de solicitud (getUsersPagination): ", error);
+
         }
     }
 
@@ -129,20 +130,24 @@ const useUser = () => {
 
             if (response.ok) {
                 setTimeout(() => {
-                    setSuccess(true)
+                    openNotificationWithIcon(
+                        "success",
+                        <h1> Usuario registrado correctamente </h1>,
+                        ""
+                    )
+
                     toggle(false)
                 }, 2000);
 
-                fetchUsers()
+                getUsersPagination(users.pagination.current, users.pagination.pageSize)
+            } else {
+                openNotificationWithIcon("error", "Error", "Ocurrió un error al crear el usuario. Intenta nuevamente.")
             }
-
-            setTimeout(() => {
-                setSuccess(false)
-            }, 6000);
 
             return
 
         } catch (error) {
+            openNotificationWithIcon("error", "Error", "Error de servidor. Intenta nuevamente más tarde.")
             throw new Error("Error de solicitud (createUser): ", error)
         }
     }
@@ -156,20 +161,23 @@ const useUser = () => {
 
             if (response.ok) {
                 setTimeout(() => {
-                    setSuccess(true)
+                    openNotificationWithIcon(
+                        "success",
+                        <h1> Registro actualizado correctamente </h1>,
+                        ""
+                    )
                     toggle(false)
                 }, 2000);
 
-                fetchUsers()
+                getUsersPagination(users.pagination.current, users.pagination.pageSize)
+            } else {
+                openNotificationWithIcon("error", "Error", "Ocurrió un error al actualizar el registro. Intenta nuevamente.")
             }
-
-            setTimeout(() => {
-                setSuccess(false)
-            }, 6000);
 
             return
 
         } catch (error) {
+            openNotificationWithIcon("error", "Error", "Error de servidor. Intenta nuevamente más tarde.")
             throw new Error("Error de solicitud (updateUser): ", error)
         }
     }
@@ -183,13 +191,19 @@ const useUser = () => {
 
             if (response.ok) {
                 setTimeout(() => {
+                    openNotificationWithIcon(
+                        "success",
+                        <h1> Registro actualizado correctamente </h1>,
+                        ""
+                    )
                     toggle(false)
-                    setSuccess(true)
                 }, 2000);
 
-                fetchUsers()
+                getUsersPagination(users.pagination.current, users.pagination.pageSize)
+            } else {
+                openNotificationWithIcon("error", "Error", "Ocurrió un error al eliminar el registro. Intenta nuevamente.")
             }
-            
+
             setTimeout(() => {
                 setSuccess(false)
                 handleDangerCancel()
@@ -198,12 +212,13 @@ const useUser = () => {
             return
 
         } catch (error) {
+            openNotificationWithIcon("error", "Error", "Error de servidor. Intenta nuevamente más tarde.")
             throw new Error("Error de solicitud (updateUser): ", error)
         }
     }
 
     useEffect(() => {
-        getUsersPagination(users.pagination.current, users.pagination.size)
+        getUsersPagination(users.pagination.current, users.pagination.pageSize)
     }, [])
 
     return {

@@ -8,8 +8,8 @@ const PaginationComponent = ({ pagination, total }) => {
     return (
         <>
             <Pagination
-                current={pagination.current}
-                pageSize={pagination.size}
+                current={pagination?.current}
+                pageSize={pagination?.pageSize}
                 total={total}
                 onChange={handlePageChange}
                 style={{

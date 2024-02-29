@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Space, Table, Tag, Spin, Form, Alert, Divider } from 'antd';
+import { Space, Table, Tag, Spin, Form, Divider } from 'antd';
 import Styles from "./tableComponent.module.css"
 import useUser from '../../hooks/useUser';
 import useModal from '../../hooks/useModal';
@@ -62,14 +62,16 @@ const TableComponent = () => {
                         <Space size="middle">
                             <a onClick={() => {
                                 setTypeForm("update")
-                                handleEditClick(record, form, showModal, users)
+                                showModal()
+                                handleEditClick(record, form)
                             }}
                             >
                                 Editar
                             </a>
                             <a onClick={() => {
                                 setTypeForm("delete")
-                                handleDeleteClick(record, form, showModal, users)
+                                showModal()
+                                handleDeleteClick(record, form)
                             }}
                             >
                                 Eliminar
@@ -106,14 +108,6 @@ const TableComponent = () => {
                                 name="updateUser"
                             />
                         </Spin>
-                        {success
-                            &&
-                            (<Alert
-                                message="¡Éxito!"
-                                description="Registro actualizado exitosamente"
-                                type="success"
-                            />)
-                        }
                     </ModalComponent>)
                     :
                     (<ModalComponent
@@ -135,18 +129,8 @@ const TableComponent = () => {
                             </p>
                             <Divider />
                         </Spin>
-                            {success
-                                &&
-                                (<Alert
-                                    message="¡Éxito!"
-                                    description="Registro eliminado exitosamente"
-                                    type="success"
-                                />)
-                            }
                     </ModalComponent>)
-
             }
-
         </div>
     )
 }
