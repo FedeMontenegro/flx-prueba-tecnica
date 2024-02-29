@@ -193,7 +193,7 @@ const useUser = () => {
                 setTimeout(() => {
                     openNotificationWithIcon(
                         "success",
-                        <h1> Registro actualizado correctamente </h1>,
+                        <h1> Registro eliminado correctamente </h1>,
                         ""
                     )
                     toggle(false)
